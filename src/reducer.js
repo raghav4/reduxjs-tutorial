@@ -1,7 +1,8 @@
+import * as actions from './actionTypes';
 let lastId = 0;
 
 // !! Provide the inital state
-function reducer(state = [], action) {
+export default function reducer(state = [], action) {
     switch(action.type) {
         /**
          * The payload of our action should contain the minimal information we need to update our system.
@@ -9,7 +10,7 @@ function reducer(state = [], action) {
          * 
          * Everything should be computed here as this is where we implement our business logic.
          */
-        case 'bugAdded': return [
+        case actions.BUG_ADDED: return [
             ...state,
             {
                 id: ++lastId,
@@ -17,7 +18,10 @@ function reducer(state = [], action) {
                 resolved: false,
             }
         ];
-        case 'bugRemoved': return state.filter(bug => bug.id !== action.payload.id);
+        case actions.BUG_RESOLVED: {
+            return state.map(bug => bug.id !== action.payload.id ? bug : { ...bug, resolved: true });
+        }
+        case actions.BUG_REMOVED: return state.filter(bug => bug.id !== action.payload.id);
         // If we dispatch an action that doesn't exist, we don't want our system to blow up.
         // So return the current state.
         default:
