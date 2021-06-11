@@ -36,7 +36,7 @@ store.dispatch(bugResolved(1));
 store.dispatch(bugAdded('Bug 3'));
 
 unsubscribe();
-// Now after Unsubscribig we are not going to get notified of the action dispatch.
+// Now after Unsubscribing we are not going to get notified of the action dispatch.
 // Because we have Unsubscribed before.
 
 store.dispatch(bugRemoved(2));
