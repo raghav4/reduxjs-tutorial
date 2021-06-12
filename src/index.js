@@ -1,5 +1,9 @@
-import store from './store';
-import { bugAdded, bugRemoved, bugResolved } from './actions';
+import * as actions from './store/bugs';
+import { projectAdded } from './store/projects';
+import configureStore from './store/configureStore';
+
+// It is a bad practice to import all objects in one go but since the module is very small. 
+// So, It is ok to do so.
 
 /**
  * Subscribing to a store.
@@ -9,6 +13,8 @@ import { bugAdded, bugRemoved, bugResolved } from './actions';
  * we do not have that UI components, so we should have subscriptions to that store.
  * Because this subscription could cause memory leaks.
  */
+
+const store = configureStore();
 
 const unsubscribe = store.subscribe(() => {
     /**
@@ -28,16 +34,17 @@ const unsubscribe = store.subscribe(() => {
  */
 
 // Dispatching an action.
-store.dispatch(bugAdded('Bug 1'));
-store.dispatch(bugAdded('Bug 2'));
+store.dispatch(projectAdded({ name: 'Project 1' }));
+store.dispatch(actions.bugAdded({ description: 'Bug 1' }));
+store.dispatch(actions.bugAdded({ description: 'Bug 2' }));
 
-store.dispatch(bugResolved(1));
+store.dispatch(actions.bugResolved({ id: 1 }));
 
-store.dispatch(bugAdded('Bug 3'));
+store.dispatch(actions.bugAdded({ description: 'Bug 3' }));
 
 unsubscribe();
 // Now after Unsubscribing we are not going to get notified of the action dispatch.
 // Because we have Unsubscribed before.
 
-store.dispatch(bugRemoved(2));
+store.dispatch(actions.bugRemoved({ id: 2 }));
 console.log(store.getState());
