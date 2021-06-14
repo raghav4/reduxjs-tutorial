@@ -1,5 +1,6 @@
-import * as actions from './store/bugs';
+import { bugAdded, bugRemoved, bugResolved, bugAssignedToUser, getBugsByUser } from './store/bugs';
 import { projectAdded } from './store/projects';
+import { userAdded } from './store/users';
 import configureStore from './store/configureStore';
 
 // It is a bad practice to import all objects in one go but since the module is very small. 
@@ -34,17 +35,25 @@ const unsubscribe = store.subscribe(() => {
  */
 
 // Dispatching an action.
+store.dispatch(userAdded({ name: 'User 1' }));
+store.dispatch(userAdded({ name: 'User 2' }));
 store.dispatch(projectAdded({ name: 'Project 1' }));
-store.dispatch(actions.bugAdded({ description: 'Bug 1' }));
-store.dispatch(actions.bugAdded({ description: 'Bug 2' }));
+store.dispatch(bugAdded({ description: 'Bug 1' }));
+store.dispatch(bugAdded({ description: 'Bug 2' }));
 
-store.dispatch(actions.bugResolved({ id: 1 }));
+store.dispatch(bugResolved({ id: 1 }));
 
-store.dispatch(actions.bugAdded({ description: 'Bug 3' }));
+store.dispatch(bugAssignedToUser({ bugId: 1, userId: 1 }));
+store.dispatch(bugAdded({ description: 'Bug 3' }));
+/**
+ * getBugsByUser => going to return us a function which accepts our current state as an argument.
+ */
+const bugs = getBugsByUser(1)(store.getState());
+console.log(bugs);
 
 unsubscribe();
 // Now after Unsubscribing we are not going to get notified of the action dispatch.
 // Because we have Unsubscribed before.
 
-store.dispatch(actions.bugRemoved({ id: 2 }));
+// store.dispatch(bugRemoved({ id: 2 }));
 console.log(store.getState());

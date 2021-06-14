@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
-import reducer from './projects';
+import reducer from './reducer';
 
 /**
  * Benefits of createStore function from the redux-toolkit is that,
