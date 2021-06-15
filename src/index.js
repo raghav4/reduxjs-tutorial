@@ -55,5 +55,12 @@ unsubscribe();
 // Now after Unsubscribing we are not going to get notified of the action dispatch.
 // Because we have Unsubscribed before.
 
-// store.dispatch(bugRemoved({ id: 2 }));
+// // store.dispatch(bugRemoved({ id: 2 }));
+// store.dispatch({
+//     type: 'error',
+//     payload: {
+//         message: 'An Error Occurred'
+//     }
+// });
+
 console.log(store.getState());
