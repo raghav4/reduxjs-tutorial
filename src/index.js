@@ -2,6 +2,7 @@ import { bugAdded, bugRemoved, bugResolved, bugAssignedToUser, getBugsByUser } f
 import { projectAdded } from './store/projects';
 import { userAdded } from './store/users';
 import configureStore from './store/configureStore';
+import * as actions from './store/api';
 
 // It is a bad practice to import all objects in one go but since the module is very small. 
 // So, It is ok to do so.
@@ -56,6 +57,16 @@ unsubscribe();
 // Because we have Unsubscribed before.
 
 // // store.dispatch(bugRemoved({ id: 2 }));
+
+// Dispatching a function
+// store.dispatch((dispatch, getState) => {
+//     // Call an API
+//     // When the Promise is resolved => dispatch()
+//     dispatch({ type: 'bugsReceived', bugs: [1, 2, 3] });
+//     // If the promise is rejected dispatch()
+//     console.log(getState());
+// });
+
 // store.dispatch({
 //     type: 'error',
 //     payload: {
@@ -63,4 +74,11 @@ unsubscribe();
 //     }
 // });
 
-console.log(store.getState());
+// console.log(store.getState());
+
+store.dispatch(actions.apiCallBegan({
+    url: '/bugs',
+    onSuccess: 'bugsReceived',
+    onError: actions.apiCallFailed.type,
+    // method: 'GET', // Default Method is GET
+}));

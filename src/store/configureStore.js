@@ -1,6 +1,7 @@
 import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit';
 import logger from './middleware/logger';
 import error from './middleware/error';
+import api from './middleware/api';
 import reducer from './reducer';
 
 /**
@@ -17,6 +18,7 @@ export default function() {
             ...getDefaultMiddleware(),
             error,
             logger('console'),
+            api,
         ],
     });
 };
