@@ -1,4 +1,4 @@
-import { bugAdded, bugRemoved, bugResolved, bugAssignedToUser, getBugsByUser } from './store/bugs';
+import { bugAdded, bugRemoved, bugResolved, bugAssignedToUser, getBugsByUser, loadBugs } from './store/bugs';
 import { projectAdded } from './store/projects';
 import { userAdded } from './store/users';
 import configureStore from './store/configureStore';
@@ -76,9 +76,12 @@ unsubscribe();
 
 // console.log(store.getState());
 
-store.dispatch(actions.apiCallBegan({
-    url: '/bugs',
-    onSuccess: 'bugsReceived',
-    onError: actions.apiCallFailed.type,
-    // method: 'GET', // Default Method is GET
-}));
+/**
+ * At the UI Layer,
+ * We do not wanna know what action should be dispatch, what URL we should be hitting,
+ * At the UI Layer, it should be store.dispatch(loadBugs());
+ */
+
+store.dispatch(loadBugs());
+
+setTimeout(() => store.dispatch(loadBugs()), 2000);
